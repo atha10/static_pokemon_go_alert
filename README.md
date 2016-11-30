@@ -1,5 +1,5 @@
 # static_pokemon_go_alert
-Makes use of data from sgpokemap.com.sg to alert you of Pokemon nearby.
+Makes use of data from [sgpokemap.com.sg](sgpokemap.com.sg) to alert you of Pokemon nearby.
 
 Will run fine on Ubuntu. On other environments, the ```requests``` module for python will behave differently.
 
