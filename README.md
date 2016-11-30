@@ -3,6 +3,11 @@ Makes use of data from [sgpokemap.com.sg](sgpokemap.com.sg) to alert you of Poke
 
 Will run fine on Ubuntu. On other environments, the ```requests``` module for python will behave differently.
 
+Install this first. It is for the audio alert when there is a pokemon.
+```
+sudo apt-get install gnustep-gui-runtime
+```
+
 To run:
 ```
 python poke_map.py
