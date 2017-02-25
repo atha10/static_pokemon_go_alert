@@ -31,12 +31,13 @@ def main():
 
 def getDataFromSGPokeMap():
 	# current_epoch_time = int(time.time()) - 30
+	list_of_pokemon_ids = get_list_of_pokemon_ids()
 	current_epoch_time = 0
 	s = requests.Session()
 	s.headers = {
 		"authority": "sgpokemap.com",
 		"method": "GET",
-		"path": "/query2.php?since="+str(current_epoch_time)+"&mons=1,2,3,4,5,6,7,8,9,25,26,29,30,31,32,33,34,35,36,37,38,40,42,44,45,50,51,55,56,57,58,59,61,62,63,64,65,66,67,68,70,71,74,75,76,78,79,80,83,86,87,88,89,90,91,92,93,94,95,96,97,103,105,106,107,108,109,110,111,112,113,115,117,122,123,124,128,130,131,132,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151",
+		"path": "/query2.php?since="+str(current_epoch_time)+"&mons="+list_of_pokemon_ids,
 		"scheme": "https",
 		"accept": "*/*",
 		"accept-encoding": "gzip, deflate, sdch, br",
@@ -49,7 +50,7 @@ def getDataFromSGPokeMap():
 		"x-requested-with": "XMLHttpRequest"
 	}
 
-	r = s.get("https://sgpokemap.com/query2.php?since="+str(current_epoch_time)+"&mons=1,2,3,4,5,6,7,8,9,25,26,29,30,31,32,33,34,35,36,37,38,40,42,44,45,50,51,55,56,57,58,59,61,62,63,64,65,66,67,68,70,71,74,75,76,78,79,80,83,86,87,88,89,90,91,92,93,94,95,96,97,103,105,106,107,108,109,110,111,112,113,115,117,122,123,124,128,130,131,132,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151")
+	r = s.get("https://sgpokemap.com/query2.php?since="+str(current_epoch_time)+"&mons="+list_of_pokemon_ids)
 
 	if r.status_code != 200:
 		print "Could not get json."
@@ -65,14 +66,22 @@ def sound_alert(message):
 	# subprocess.call(["./say.sh", message])
 	subprocess.call(["say", message])
 
+def get_list_of_pokemon_ids():
+	with open(os.path.join(os.path.dirname(__file__), 'list_of_pokemon.json')) as data_file:
+                data = json.load(data_file)
+	result = ""
+	for obj in data:
+		result += obj["i"] + ","
+	return result
+
 def get_pokemon_name(array):
 	with open(os.path.join(os.path.dirname(__file__), 'list_of_pokemon.json')) as data_file:
 		data = json.load(data_file)
 	result = ""
 	for id in array:
 		for obj in data:
-			if obj["id"] == id:
-				result += obj["name"] + ", "
+			if obj["i"] == id:
+				result += obj["n"] + ", "
 	return result	
 
 main();
