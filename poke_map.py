@@ -16,7 +16,6 @@ def main():
 	pokemons = getDataFromSGPokeMap()["pokemons"]
 	for pokemon in pokemons:
 		if is_nearby(pokemon["lat"], pokemon["lng"]):
-			print pokemon
 			list_of_nearby_pokemon_ids.append(str(pokemon["pokemon_id"]))
 
 	if len(list_of_nearby_pokemon_ids) > 0:
@@ -31,7 +30,7 @@ def main():
 
 def getDataFromSGPokeMap():
 	# current_epoch_time = int(time.time()) - 30
-	list_of_pokemon_ids = get_list_of_pokemon_ids()
+	list_of_pokemon_ids = get_list_of_pokemon_ids().rstrip(',')
 	current_epoch_time = 0
 	s = requests.Session()
 	s.headers = {
@@ -50,7 +49,7 @@ def getDataFromSGPokeMap():
 		"x-requested-with": "XMLHttpRequest"
 	}
 
-	r = s.get("https://sgpokemap.com/query2.php?since="+str(current_epoch_time)+"&mons="+list_of_pokemon_ids)
+	r = s.get("https://sgpokemap.com/query2.php?since="+str(current_epoch_time)+"&mons="+list_of_pokemon_ids, verify=False)
 
 	if r.status_code != 200:
 		print "Could not get json."
@@ -64,7 +63,8 @@ def is_nearby(lat, lng):
 
 def sound_alert(message):
 	# subprocess.call(["./say.sh", message])
-	subprocess.call(["say", message])
+	# subprocess.call(["espeak", message])
+	subprocess.call(["espeak", "-s", "160", "-v", "en-us+f2", message])
 
 def get_list_of_pokemon_ids():
 	with open(os.path.join(os.path.dirname(__file__), 'list_of_pokemon.json')) as data_file:
