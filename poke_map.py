@@ -19,17 +19,15 @@ def main():
 			list_of_nearby_pokemon_ids.append(str(pokemon["pokemon_id"]))
 
 	if len(list_of_nearby_pokemon_ids) > 0:
+		sound_alert("PO KE MON Alert")
 		if len(list_of_nearby_pokemon_ids) == 1:
-			sound_alert("PO KE MON Alert")
 			sound_alert(get_pokemon_name(list_of_nearby_pokemon_ids) + " is nearby.")
 			sound_alert(get_pokemon_name(list_of_nearby_pokemon_ids) + " is nearby.")
 		else:
-			sound_alert("PO KE MON Alert")
 			sound_alert("There are " + str(len(list_of_nearby_pokemon_ids)) + " po ke mons nearby.")
 			sound_alert("They are " + get_pokemon_name(list_of_nearby_pokemon_ids))
 
 def getDataFromSGPokeMap():
-	# current_epoch_time = int(time.time()) - 30
 	list_of_pokemon_ids = get_list_of_pokemon_ids().rstrip(',')
 	current_epoch_time = 0
 	s = requests.Session()
